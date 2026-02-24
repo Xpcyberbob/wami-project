@@ -42,7 +42,13 @@ function ProfileStackScreen() {
         headerShown: false,
       }}
     >
-      <ProfileStack.Screen name="ProfileMain" component={ProfileScreen} />
+      <ProfileStack.Screen name="ProfileMain">
+        {() => (
+          <ScreenWithAssistant>
+            <ProfileScreen />
+          </ScreenWithAssistant>
+        )}
+      </ProfileStack.Screen>
       <ProfileStack.Screen name="Shop" component={ShopScreen} />
       <ProfileStack.Screen name="MaBoutique" component={MaBoutiqueScreen} />
     </ProfileStack.Navigator>

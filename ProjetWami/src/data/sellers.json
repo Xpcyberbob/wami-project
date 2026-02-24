@@ -1,0 +1,465 @@
+{
+    "cities": {
+        "Abidjan": {
+            "lat": 5.3567,
+            "lng": -4.0079
+        },
+        "Abidjan, Cocody": {
+            "lat": 5.3570,
+            "lng": -3.9906
+        },
+        "Abidjan, Yopougon": {
+            "lat": 5.3473,
+            "lng": -4.0748
+        },
+        "Abidjan, Treichville": {
+            "lat": 5.2968,
+            "lng": -4.0058
+        },
+        "Bouaké": {
+            "lat": 7.6906,
+            "lng": -5.0338
+        },
+        "Yamoussoukro": {
+            "lat": 6.8206,
+            "lng": -5.2789
+        },
+        "San-Pédro": {
+            "lat": 4.7451,
+            "lng": -6.6464
+        },
+        "Grand-Bassam": {
+            "lat": 5.2032,
+            "lng": -3.7417
+        },
+        "Daloa": {
+            "lat": 6.8773,
+            "lng": -6.4502
+        },
+        "Korhogo": {
+            "lat": 9.4576,
+            "lng": -5.6293
+        },
+        "Man": {
+            "lat": 7.4026,
+            "lng": -7.5522
+        },
+        "Gagnoa": {
+            "lat": 6.1320,
+            "lng": -5.9488
+        },
+        "Divo": {
+            "lat": 5.8356,
+            "lng": -5.3574
+        },
+        "Abengourou": {
+            "lat": 6.7276,
+            "lng": -3.4965
+        }
+    },
+    "sellers": [
+        {
+            "id": "ferme_aqua_konan",
+            "name": "Ferme Aqua Konan",
+            "city": "Abidjan, Cocody",
+            "lat": 5.3570,
+            "lng": -3.9906,
+            "phone": "+225 07 01 23 45",
+            "whatsapp": "+225 07 01 23 45",
+            "rating": 4.8,
+            "reviews": 127,
+            "description": "Ferme piscicole de 10 ans d'expérience, spécialisée en Tilapia du Nil de qualité supérieure.",
+            "specialties": [
+                "poissons",
+                "alevins"
+            ],
+            "verified": true,
+            "livraison": true,
+            "rayon_livraison_km": 50,
+            "products": [
+                {
+                    "name": "Tilapia du Nil",
+                    "price": 5000,
+                    "unit": "kg",
+                    "category": "poissons",
+                    "stock": 150
+                },
+                {
+                    "name": "Alevins Tilapia",
+                    "price": 50,
+                    "unit": "pièce",
+                    "category": "alevins",
+                    "stock": 2000
+                }
+            ]
+        },
+        {
+            "id": "pisciculture_yao",
+            "name": "Pisciculture Yao & Fils",
+            "city": "Bouaké",
+            "lat": 7.6906,
+            "lng": -5.0338,
+            "phone": "+225 05 22 33 44",
+            "whatsapp": "+225 05 22 33 44",
+            "rating": 4.6,
+            "reviews": 89,
+            "description": "Grande pisciculture familiale, leader en carpe et alevins dans le centre du pays.",
+            "specialties": [
+                "poissons",
+                "alevins",
+                "alimentation"
+            ],
+            "verified": true,
+            "livraison": true,
+            "rayon_livraison_km": 100,
+            "products": [
+                {
+                    "name": "Carpe Royale",
+                    "price": 4500,
+                    "unit": "kg",
+                    "category": "poissons",
+                    "stock": 200
+                },
+                {
+                    "name": "Alevins Carpe",
+                    "price": 45,
+                    "unit": "pièce",
+                    "category": "alevins",
+                    "stock": 3000
+                },
+                {
+                    "name": "Alevins Silure",
+                    "price": 60,
+                    "unit": "pièce",
+                    "category": "alevins",
+                    "stock": 2000
+                },
+                {
+                    "name": "Aliment Croissance 4mm",
+                    "price": 9500,
+                    "unit": "sac 25kg",
+                    "category": "alimentation",
+                    "stock": 350
+                }
+            ]
+        },
+        {
+            "id": "pecherie_bandama",
+            "name": "Pêcherie du Bandama",
+            "city": "Yamoussoukro",
+            "lat": 6.8206,
+            "lng": -5.2789,
+            "phone": "+225 01 33 44 55",
+            "whatsapp": "+225 01 33 44 55",
+            "rating": 4.9,
+            "reviews": 203,
+            "description": "Référence nationale en silure de rivière, produit 100% naturel du Bandama.",
+            "specialties": [
+                "poissons"
+            ],
+            "verified": true,
+            "livraison": false,
+            "rayon_livraison_km": 0,
+            "products": [
+                {
+                    "name": "Silure de Rivière",
+                    "price": 6000,
+                    "unit": "kg",
+                    "category": "poissons",
+                    "stock": 80
+                }
+            ]
+        },
+        {
+            "id": "aqua_brou",
+            "name": "Aqua Brou",
+            "city": "San-Pédro",
+            "lat": 4.7451,
+            "lng": -6.6464,
+            "phone": "+225 07 55 66 77",
+            "whatsapp": "+225 07 55 66 77",
+            "rating": 4.5,
+            "reviews": 54,
+            "description": "Spécialiste du poisson-chat et des espèces d'eau douce du sud-ouest ivoirien.",
+            "specialties": [
+                "poissons"
+            ],
+            "verified": false,
+            "livraison": true,
+            "rayon_livraison_km": 30,
+            "products": [
+                {
+                    "name": "Poisson-Chat",
+                    "price": 5500,
+                    "unit": "kg",
+                    "category": "poissons",
+                    "stock": 120
+                }
+            ]
+        },
+        {
+            "id": "ferme_lagunaire_assinie",
+            "name": "Ferme Lagunaire Assinie",
+            "city": "Grand-Bassam",
+            "lat": 5.2032,
+            "lng": -3.7417,
+            "phone": "+225 05 99 88 77",
+            "whatsapp": "+225 05 99 88 77",
+            "rating": 4.7,
+            "reviews": 76,
+            "description": "Élevage lagunaire unique en CI, spécialisé en mulet à grosse tête premium.",
+            "specialties": [
+                "poissons"
+            ],
+            "verified": true,
+            "livraison": true,
+            "rayon_livraison_km": 60,
+            "products": [
+                {
+                    "name": "Mulet à Grosse Tête",
+                    "price": 7000,
+                    "unit": "kg",
+                    "category": "poissons",
+                    "stock": 50
+                }
+            ]
+        },
+        {
+            "id": "nurserie_koffi",
+            "name": "Nurserie Koffi",
+            "city": "Abidjan, Yopougon",
+            "lat": 5.3473,
+            "lng": -4.0748,
+            "phone": "+225 07 12 34 56",
+            "whatsapp": "+225 07 12 34 56",
+            "rating": 4.7,
+            "reviews": 158,
+            "description": "La plus grande nurserie d'alevins d'Abidjan, producteur certifié depuis 2010.",
+            "specialties": [
+                "alevins"
+            ],
+            "verified": true,
+            "livraison": true,
+            "rayon_livraison_km": 80,
+            "products": [
+                {
+                    "name": "Alevins Tilapia",
+                    "price": 50,
+                    "unit": "pièce",
+                    "category": "alevins",
+                    "stock": 5000
+                },
+                {
+                    "name": "Géniteurs Tilapia",
+                    "price": 2000,
+                    "unit": "pièce",
+                    "category": "alevins",
+                    "stock": 50
+                }
+            ]
+        },
+        {
+            "id": "aqua_genetique_ci",
+            "name": "Aqua Génétique CI",
+            "city": "Daloa",
+            "lat": 6.8773,
+            "lng": -6.4502,
+            "phone": "+225 01 77 88 99",
+            "whatsapp": "+225 01 77 88 99",
+            "rating": 4.6,
+            "reviews": 92,
+            "description": "Sélection génétique d'alevins de haute performance, souches améliorées.",
+            "specialties": [
+                "alevins"
+            ],
+            "verified": true,
+            "livraison": true,
+            "rayon_livraison_km": 120,
+            "products": [
+                {
+                    "name": "Alevins Carpe sélectionnés",
+                    "price": 45,
+                    "unit": "pièce",
+                    "category": "alevins",
+                    "stock": 3000
+                }
+            ]
+        },
+        {
+            "id": "aquaequip_ci",
+            "name": "AquaEquip CI",
+            "city": "Abidjan, Treichville",
+            "lat": 5.2968,
+            "lng": -4.0058,
+            "phone": "+225 22 44 55 66",
+            "whatsapp": "+225 22 44 55 66",
+            "rating": 4.4,
+            "reviews": 67,
+            "description": "Fournisseur officiel d'équipements pour la pisciculture, 500+ références en stock.",
+            "specialties": [
+                "equipement"
+            ],
+            "verified": true,
+            "livraison": true,
+            "rayon_livraison_km": 200,
+            "products": [
+                {
+                    "name": "Filet de Pêche 10m",
+                    "price": 25000,
+                    "unit": "pièce",
+                    "category": "equipement",
+                    "stock": 30
+                },
+                {
+                    "name": "Bassin HDPE 10m³",
+                    "price": 180000,
+                    "unit": "pièce",
+                    "category": "equipement",
+                    "stock": 8
+                }
+            ]
+        },
+        {
+            "id": "techaqua",
+            "name": "TechAqua",
+            "city": "Abidjan",
+            "lat": 5.3567,
+            "lng": -4.0079,
+            "phone": "+225 05 33 22 11",
+            "whatsapp": "+225 05 33 22 11",
+            "rating": 4.6,
+            "reviews": 43,
+            "description": "Technologies d'aération et filtration pour piscicultures modernes.",
+            "specialties": [
+                "equipement"
+            ],
+            "verified": true,
+            "livraison": true,
+            "rayon_livraison_km": 150,
+            "products": [
+                {
+                    "name": "Pompe à Air 50W",
+                    "price": 35000,
+                    "unit": "pièce",
+                    "category": "equipement",
+                    "stock": 15
+                }
+            ]
+        },
+        {
+            "id": "labaqua",
+            "name": "LabAqua",
+            "city": "Abidjan",
+            "lat": 5.3600,
+            "lng": -4.0050,
+            "phone": "+225 07 88 99 00",
+            "whatsapp": "+225 07 88 99 00",
+            "rating": 4.7,
+            "reviews": 81,
+            "description": "Laboratoire spécialisé en analyse de l'eau et kits de test pour piscicultures.",
+            "specialties": [
+                "equipement"
+            ],
+            "verified": true,
+            "livraison": true,
+            "rayon_livraison_km": 100,
+            "products": [
+                {
+                    "name": "Kit Test Eau 8 en 1",
+                    "price": 8500,
+                    "unit": "kit",
+                    "category": "equipement",
+                    "stock": 60
+                }
+            ]
+        },
+        {
+            "id": "nutriaqua_ci",
+            "name": "NutriAqua CI",
+            "city": "Abidjan",
+            "lat": 5.3550,
+            "lng": -4.0100,
+            "phone": "+225 01 55 66 77",
+            "whatsapp": "+225 01 55 66 77",
+            "rating": 4.8,
+            "reviews": 174,
+            "description": "Fabricant ivoirien d'aliments pour poissons, formulé par des experts en nutrition aquatique.",
+            "specialties": [
+                "alimentation"
+            ],
+            "verified": true,
+            "livraison": true,
+            "rayon_livraison_km": 300,
+            "products": [
+                {
+                    "name": "Aliment Starter 0–2mm",
+                    "price": 12000,
+                    "unit": "sac 10kg",
+                    "category": "alimentation",
+                    "stock": 200
+                },
+                {
+                    "name": "Aliment Finition 6mm",
+                    "price": 8000,
+                    "unit": "sac 25kg",
+                    "category": "alimentation",
+                    "stock": 180
+                }
+            ]
+        },
+        {
+            "id": "feedmaster",
+            "name": "FeedMaster",
+            "city": "Bouaké",
+            "lat": 7.6900,
+            "lng": -5.0340,
+            "phone": "+225 05 44 55 66",
+            "whatsapp": "+225 05 44 55 66",
+            "rating": 4.6,
+            "reviews": 95,
+            "description": "Distributeur d'aliments pour aquaculture, prix compétitifs pour les grossistes.",
+            "specialties": [
+                "alimentation"
+            ],
+            "verified": false,
+            "livraison": true,
+            "rayon_livraison_km": 200,
+            "products": [
+                {
+                    "name": "Aliment Croissance 4mm",
+                    "price": 9200,
+                    "unit": "sac 25kg",
+                    "category": "alimentation",
+                    "stock": 350
+                }
+            ]
+        },
+        {
+            "id": "bioaqua",
+            "name": "BioAqua",
+            "city": "Abidjan",
+            "lat": 5.3580,
+            "lng": -4.0120,
+            "phone": "+225 07 22 33 44",
+            "whatsapp": "+225 07 22 33 44",
+            "rating": 4.7,
+            "reviews": 38,
+            "description": "Spécialiste des solutions biologiques et probiotiques pour l'aquaculture durable.",
+            "specialties": [
+                "alimentation"
+            ],
+            "verified": true,
+            "livraison": true,
+            "rayon_livraison_km": 80,
+            "products": [
+                {
+                    "name": "Probiotiques Aquatiques",
+                    "price": 15000,
+                    "unit": "bidon 1L",
+                    "category": "alimentation",
+                    "stock": 40
+                }
+            ]
+        }
+    ]
+}

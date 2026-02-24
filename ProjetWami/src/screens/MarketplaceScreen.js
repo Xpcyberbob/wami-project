@@ -7,6 +7,7 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { COLORS } from '../constants/theme';
+import RecommendationModal from '../components/RecommendationModal';
 
 // ─── Données fictives ────────────────────────────────────────────────────────
 
@@ -53,7 +54,14 @@ export default function MarketplaceScreen({ navigation }) {
     const [searchQuery, setSearchQuery] = useState('');
     const [cart, setCart] = useState({});
     const [showCart, setShowCart] = useState(false);
+    const [showReco, setShowReco] = useState(false);
     const [sellerProducts, setSellerProducts] = useState([]);
+
+    // Quand l'utilisateur sélectionne un fournisseur dans les recommandations
+    const handleSellerFromReco = (seller) => {
+        setSearchQuery(seller.name);
+        setSelectedCategory('all');
+    };
 
     // Charger les produits des vendeurs (Ma Boutique)
     const loadSellerProducts = async () => {
@@ -373,6 +381,21 @@ export default function MarketplaceScreen({ navigation }) {
                     </View>
                 </View>
             </Modal>
+
+            {/* ── Bouton flottant IA Recommandation ── */}
+            <TouchableOpacity style={styles.floatingReco} onPress={() => setShowReco(true)} activeOpacity={0.85}>
+                <LinearGradient colors={['#F97316', '#FBBF24']} style={styles.floatingRecoGrad}>
+                    <Text style={styles.floatingRecoEmoji}>🤖</Text>
+                    <Text style={styles.floatingRecoText}>Recommandations IA</Text>
+                </LinearGradient>
+            </TouchableOpacity>
+
+            {/* ── Modal Recommandations ── */}
+            <RecommendationModal
+                visible={showReco}
+                onClose={() => setShowReco(false)}
+                onSelectSeller={handleSellerFromReco}
+            />
         </>
     );
 }
@@ -423,8 +446,26 @@ const styles = StyleSheet.create({
     qtyText: { paddingHorizontal: 10, fontSize: 15, fontWeight: '700', color: COLORS.primary },
 
     // Panier flottant
-    floatingCart: { position: 'absolute', bottom: 16, left: 16, right: 16, backgroundColor: COLORS.primaryDark, borderRadius: 16, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 18, paddingVertical: 14, elevation: 8, gap: 10 },
+    floatingCart: {
+        position: 'absolute', bottom: 16, left: 16, right: 16,
+        backgroundColor: COLORS.primaryDark, borderRadius: 16,
+        flexDirection: 'row', alignItems: 'center',
+        paddingHorizontal: 18, paddingVertical: 14, elevation: 8, gap: 10,
+    },
     floatingCartText: { flex: 1, color: '#fff', fontWeight: '700', fontSize: 15 },
+
+    // Bouton IA flottant
+    floatingReco: {
+        position: 'absolute', bottom: 80, right: 16,
+        borderRadius: 28, elevation: 10, shadowColor: '#F97316',
+        shadowOpacity: 0.35, shadowRadius: 8, shadowOffset: { width: 0, height: 4 },
+    },
+    floatingRecoGrad: {
+        flexDirection: 'row', alignItems: 'center', gap: 7,
+        paddingHorizontal: 16, paddingVertical: 11, borderRadius: 28,
+    },
+    floatingRecoEmoji: { fontSize: 18 },
+    floatingRecoText: { fontSize: 13, fontWeight: '800', color: '#fff' },
 
     // Modal panier
     modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.45)', justifyContent: 'flex-end' },

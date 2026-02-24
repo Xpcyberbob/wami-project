@@ -4,12 +4,15 @@ import FloatingAssistantButton from './FloatingAssistantButton';
 import ChatbotScreen from '../screens/ChatbotScreen';
 import { useAssistant } from '../contexts/AssistantContext';
 import { useAuth } from '../contexts/AuthContext';
+import { useNavigation } from '@react-navigation/native';
+import FloatingMarketplaceButton from './FloatingMarketplaceButton';
 
 export default function ScreenWithAssistant({ children, hideFloatingButton = false }) {
   const [assistantVisible, setAssistantVisible] = useState(false);
   const [initialMessage, setInitialMessage] = useState(null);
   const { shouldShowWelcome, welcomeMessage, checkWelcomeStatus, dismissWelcome } = useAssistant();
   const { user } = useAuth();
+  const navigation = useNavigation();
 
   // Vérifier si on doit afficher le message de bienvenue au premier chargement
   // DÉSACTIVÉ : Pour éviter l'ouverture automatique au démarrage
@@ -49,11 +52,19 @@ export default function ScreenWithAssistant({ children, hideFloatingButton = fal
   return (
     <View style={styles.container}>
       {childrenWithProps}
-      
+
       {!hideFloatingButton && (
-        <FloatingAssistantButton onPress={() => openAssistant()} />
+        <>
+          {/* Bouton de l'assistant */}
+          <FloatingAssistantButton onPress={() => openAssistant()} />
+
+          {/* Bouton Marketplace (visible pour clients et pisciculteurs) */}
+          {(user?.role === 'client' || user?.sellerType === 'pisciculteur') && (
+            <FloatingMarketplaceButton onPress={() => navigation.navigate('Marketplace')} />
+          )}
+        </>
       )}
-      
+
       <Modal
         visible={assistantVisible}
         animationType="slide"
@@ -63,11 +74,11 @@ export default function ScreenWithAssistant({ children, hideFloatingButton = fal
           setInitialMessage(null);
         }}
       >
-        <ChatbotScreen 
+        <ChatbotScreen
           onClose={() => {
             setAssistantVisible(false);
             setInitialMessage(null);
-          }} 
+          }}
           initialMessage={initialMessage}
         />
       </Modal>

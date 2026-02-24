@@ -21,8 +21,10 @@ import * as Speech from 'expo-speech';
 import { useSpeech } from '../contexts/SpeechContext';
 import ttsService from '../services/ttsService';
 
+
 export default function DashboardScreen({ openAssistant }) {
   const { waterData, updateWaterData, refreshData, backendConnected, lastFetch } = useWaterData();
+
   const { isSpeaking, stopSpeaking: stopSpeechContext } = useSpeech();
   const [refreshing, setRefreshing] = useState(false);
   const [selectedRecommendation, setSelectedRecommendation] = useState(null);
@@ -660,576 +662,576 @@ export default function DashboardScreen({ openAssistant }) {
 
   return (
     <>
-    <ScrollView
-      style={styles.container}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-    >
-      <LinearGradient
-        colors={['#0B5394', '#1a6bb8']}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        style={styles.header}
+      <ScrollView
+        style={styles.container}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       >
-        <View style={styles.headerContent}>
-          <View style={styles.iconHeader}>
-            <MaterialCommunityIcons name="water-check" size={64} color="#ffffff" />
-          </View>
-          <Text style={styles.headerTitle}>Qualité de l'Eau</Text>
-          <Text style={styles.headerSubtitle}>
-            {backendConnected ? '🟢 Connecté' : '🔴 Hors ligne'}
-            {lastFetch ? ` • ${lastFetch.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}` : ''}
-          </Text>
-        </View>
-        
-        {/* Bouton d'arrêt de la synthèse vocale */}
-        {isSpeaking && (
-          <TouchableOpacity 
-            style={styles.stopSpeechButton}
-            onPress={stopSpeaking}
-            activeOpacity={0.8}
-          >
-            <View style={styles.stopSpeechButtonContent}>
-              <Ionicons name="stop-circle" size={24} color="#ffffff" />
-              <Text style={styles.stopSpeechButtonText}>Arrêter</Text>
-            </View>
-          </TouchableOpacity>
-        )}
-      </LinearGradient>
-
-      {/* État Global de l'Eau */}
-      <View style={styles.globalStatusContainer}>
-        <View style={[styles.globalStatusCard, { backgroundColor: globalStatus.bgColor }]}>
-          <View style={styles.globalStatusHeader}>
-            <Ionicons name={globalStatus.icon} size={48} color={globalStatus.color} />
-            <View style={styles.globalStatusTextContainer}>
-              <Text style={styles.globalStatusLabel}>État Global</Text>
-              <Text style={[styles.globalStatusValue, { color: globalStatus.color }]}>
-                {globalStatus.status}
-              </Text>
-            </View>
-          </View>
-          <Text style={styles.globalStatusMessage}>{globalStatus.message}</Text>
-        </View>
-      </View>
-
-      <View style={styles.content}>
-        {/* Section Recommandations */}
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionSubtitle}>Actions suggérées pour optimiser votre pisciculture</Text>
-        </View>
-        
-        <View style={styles.recommendationsContainer}>
-          {recommendations.map((rec) => {
-            const priorityLabel = rec.priority === 'high' ? 'Urgent' : rec.priority === 'medium' ? 'Modéré' : 'Faible';
-            const IconComponent = rec.icon === 'nutrition' ? MaterialCommunityIcons : Ionicons;
-            
-            return (
-              <TouchableOpacity 
-                key={rec.id}
-                style={[styles.recommendationCard, { borderLeftColor: rec.color }]}
-                onPress={() => {
-                  setSelectedRecommendation(rec);
-                  setModalVisible(true);
-                }}
-              >
-                <View style={styles.recommendationHeader}>
-                  <View style={[styles.iconContainer, { backgroundColor: rec.bgColor }]}>
-                    <IconComponent name={rec.icon} size={28} color={rec.color} />
-                  </View>
-                  <View style={styles.recommendationTitleContainer}>
-                    <View style={styles.categoryRow}>
-                      <Text style={styles.categoryText}>{rec.category}</Text>
-                      <View style={[styles.priorityBadge, { backgroundColor: rec.bgColor }]}>
-                        <Text style={[styles.priorityText, { color: rec.color }]}>{priorityLabel}</Text>
-                      </View>
-                    </View>
-                    <Text style={styles.recommendationTitle}>{rec.title}</Text>
-                  </View>
-                </View>
-                <Text style={styles.recommendationDescription}>
-                  {rec.description}
-                </Text>
-                <View style={styles.actionRow}>
-                  <Ionicons name="flash" size={16} color="#3498DB" />
-                  <Text style={styles.actionText}>{rec.action}</Text>
-                </View>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-
-        {/* Bouton Saisir manuellement */}
-        <TouchableOpacity style={styles.editButton} onPress={openEditModal}>
-          <Ionicons name="create-outline" size={20} color="#0B5394" />
-          <Text style={styles.editButtonText}>Saisir Paramètres</Text>
-        </TouchableOpacity>
-
-        {/* Section Paramètres Actuels */}
-        <Text style={styles.sectionTitle}>Paramètres Actuels</Text>
-        
-        {/* Bouton pour ouvrir le popup des paramètres */}
-        <TouchableOpacity 
-          style={styles.viewParametersButton}
-          onPress={() => setParametersListModalVisible(true)}
+        <LinearGradient
+          colors={['#0B5394', '#1a6bb8']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.header}
         >
-          <View style={styles.viewParametersContent}>
-            <MaterialCommunityIcons name="water-check" size={32} color="#0B5394" />
-            <View style={styles.viewParametersTextContainer}>
-              <Text style={styles.viewParametersTitle}>Voir les Paramètres</Text>
-              <Text style={styles.viewParametersSubtitle}>
-                Cliquez pour consulter les 6 paramètres d'eau
-              </Text>
+          <View style={styles.headerContent}>
+            <View style={styles.iconHeader}>
+              <MaterialCommunityIcons name="water-check" size={64} color="#ffffff" />
             </View>
-            <Ionicons name="chevron-forward" size={24} color="#0B5394" />
+            <Text style={styles.headerTitle}>Qualité de l'Eau</Text>
+            <Text style={styles.headerSubtitle}>
+              {backendConnected ? '🟢 Connecté' : '🔴 Hors ligne'}
+              {lastFetch ? ` • ${lastFetch.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}` : ''}
+            </Text>
           </View>
-        </TouchableOpacity>
 
-      </View>
-    </ScrollView>
-
-    {/* Modal de détails de recommandation */}
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={modalVisible}
-      onRequestClose={() => setModalVisible(false)}
-    >
-      <View style={styles.modalOverlay}>
-        <View style={styles.modalContent}>
-          {selectedRecommendation && (
-            <>
-              <View style={styles.modalHeader}>
-                <Text style={styles.modalTitle}>{selectedRecommendation.title}</Text>
-                <TouchableOpacity onPress={() => setModalVisible(false)}>
-                  <Ionicons name="close-circle" size={32} color="#64748b" />
-                </TouchableOpacity>
+          {/* Bouton d'arrêt de la synthèse vocale */}
+          {isSpeaking && (
+            <TouchableOpacity
+              style={styles.stopSpeechButton}
+              onPress={stopSpeaking}
+              activeOpacity={0.8}
+            >
+              <View style={styles.stopSpeechButtonContent}>
+                <Ionicons name="stop-circle" size={24} color="#ffffff" />
+                <Text style={styles.stopSpeechButtonText}>Arrêter</Text>
               </View>
-
-              <ScrollView style={styles.modalBody}>
-                {/* Icône centrale */}
-                <View style={styles.modalIconContainer}>
-                  <View style={[styles.modalIcon, { backgroundColor: selectedRecommendation.bgColor }]}>
-                    {selectedRecommendation.icon === 'nutrition' ? (
-                      <MaterialCommunityIcons name={selectedRecommendation.icon} size={48} color={selectedRecommendation.color} />
-                    ) : (
-                      <Ionicons name={selectedRecommendation.icon} size={48} color={selectedRecommendation.color} />
-                    )}
-                  </View>
-                </View>
-
-                {/* Valeurs */}
-                <View style={styles.valuesContainer}>
-                  <View style={styles.valueRow}>
-                    <Text style={styles.valueLabel}>Valeur actuelle:</Text>
-                    <Text style={styles.valueText}>{selectedRecommendation.details.currentValue}</Text>
-                  </View>
-                  <View style={styles.valueRow}>
-                    <Text style={styles.valueLabel}>Valeur cible:</Text>
-                    <Text style={styles.valueText}>{selectedRecommendation.details.targetValue}</Text>
-                  </View>
-                  <View style={styles.valueRow}>
-                    <Text style={styles.valueLabel}>Temps estimé:</Text>
-                    <Text style={styles.valueText}>{selectedRecommendation.details.estimatedTime}</Text>
-                  </View>
-                </View>
-
-                {/* Étapes à suivre */}
-                <View style={styles.stepsContainer}>
-                  <Text style={styles.stepsTitle}>Étapes à suivre:</Text>
-                  {selectedRecommendation.details.steps.map((step, index) => (
-                    <View key={index} style={styles.stepRow}>
-                      <View style={styles.stepNumber}>
-                        <Text style={styles.stepNumberText}>{index + 1}</Text>
-                      </View>
-                      <Text style={styles.stepText}>{step}</Text>
-                    </View>
-                  ))}
-                </View>
-
-                {/* Impact */}
-                <View style={styles.impactContainer}>
-                  <Ionicons name="information-circle" size={20} color="#3498DB" />
-                  <Text style={styles.impactText}>{selectedRecommendation.details.impact}</Text>
-                </View>
-              </ScrollView>
-
-              {/* Boutons */}
-              <View style={styles.modalButtons}>
-                <TouchableOpacity
-                  style={styles.explainButton}
-                  onPress={() => {
-                    setModalVisible(false);
-                    if (openAssistant && selectedRecommendation && selectedRecommendation.details) {
-                      // Créer un message contextuel pour l'IA
-                      const contextMessage = `Je veux en savoir plus sur cette recommandation : ${selectedRecommendation.title || 'Recommandation'}. Valeur actuelle : ${selectedRecommendation.details.currentValue || 'Non définie'}, Valeur cible : ${selectedRecommendation.details.targetValue || 'Non définie'}. Impact : ${selectedRecommendation.details.impact || 'Impact non défini'}. Peux-tu m'expliquer en détail ce que je dois faire et pourquoi c'est important ?`;
-                      openAssistant(contextMessage);
-                    }
-                  }}
-                >
-                  <Ionicons name="chatbubbles" size={20} color="#3498DB" />
-                  <Text style={styles.explainButtonText}>Plus d'explications avec Wami-IA</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={styles.applyButton}
-                  onPress={() => {
-                    setModalVisible(false);
-                    // Logique pour appliquer la recommandation
-                  }}
-                >
-                  <Text style={styles.applyButtonText}>Appliquer la recommandation</Text>
-                </TouchableOpacity>
-              </View>
-            </>
+            </TouchableOpacity>
           )}
-        </View>
-      </View>
-    </Modal>
+        </LinearGradient>
 
-    {/* Modal d'édition manuelle des paramètres */}
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={editModalVisible}
-      onRequestClose={() => setEditModalVisible(false)}
-    >
-      <View style={styles.modalOverlay}>
-        <View style={styles.modalContent}>
-          <View style={styles.modalHeader}>
-            <Text style={styles.modalTitle}>Saisir les Paramètres</Text>
-            <TouchableOpacity onPress={() => setEditModalVisible(false)}>
-              <Ionicons name="close-circle" size={32} color="#64748b" />
-            </TouchableOpacity>
-          </View>
-
-          <ScrollView style={styles.editScrollView}>
-            {/* Température */}
-            <View style={styles.inputGroup}>
-              <Text style={styles.inputLabel}>Température (°C)</Text>
-              <TextInput
-                style={styles.input}
-                keyboardType="numeric"
-                value={editedData.temperature?.toString()}
-                onChangeText={(text) => setEditedData({...editedData, temperature: text})}
-                placeholder="26.5"
-              />
-              <Text style={styles.inputHint}>Plage optimale: 25-27°C</Text>
-            </View>
-
-            {/* pH */}
-            <View style={styles.inputGroup}>
-              <Text style={styles.inputLabel}>pH</Text>
-              <TextInput
-                style={styles.input}
-                keyboardType="numeric"
-                value={editedData.ph?.toString()}
-                onChangeText={(text) => setEditedData({...editedData, ph: text})}
-                placeholder="7.2"
-              />
-              <Text style={styles.inputHint}>Plage optimale: 7.0-7.5</Text>
-            </View>
-
-            {/* Oxygène */}
-            <View style={styles.inputGroup}>
-              <Text style={styles.inputLabel}>Oxygène dissous (mg/L)</Text>
-              <TextInput
-                style={styles.input}
-                keyboardType="numeric"
-                value={editedData.oxygen?.toString()}
-                onChangeText={(text) => setEditedData({...editedData, oxygen: text})}
-                placeholder="8.5"
-              />
-              <Text style={styles.inputHint}>Plage optimale: 7-9 mg/L</Text>
-            </View>
-
-            {/* Ammoniaque */}
-            <View style={styles.inputGroup}>
-              <Text style={styles.inputLabel}>Ammoniaque (mg/L)</Text>
-              <TextInput
-                style={styles.input}
-                keyboardType="numeric"
-                value={editedData.ammonia?.toString()}
-                onChangeText={(text) => setEditedData({...editedData, ammonia: text})}
-                placeholder="0.15"
-              />
-              <Text style={styles.inputHint}>Plage optimale: 0-0.2 mg/L</Text>
-            </View>
-
-            {/* Turbidité */}
-            <View style={styles.inputGroup}>
-              <Text style={styles.inputLabel}>Turbidité (NTU)</Text>
-              <TextInput
-                style={styles.input}
-                keyboardType="numeric"
-                value={editedData.turbidity?.toString()}
-                onChangeText={(text) => setEditedData({...editedData, turbidity: text})}
-                placeholder="12"
-              />
-              <Text style={styles.inputHint}>Plage optimale: 0-20 NTU</Text>
-            </View>
-
-            {/* Salinité */}
-            <View style={styles.inputGroup}>
-              <Text style={styles.inputLabel}>Salinité (ppt)</Text>
-              <TextInput
-                style={styles.input}
-                keyboardType="numeric"
-                value={editedData.salinity?.toString()}
-                onChangeText={(text) => setEditedData({...editedData, salinity: text})}
-                placeholder="0.5"
-              />
-              <Text style={styles.inputHint}>Plage optimale: 0-1 ppt</Text>
-            </View>
-          </ScrollView>
-
-          {/* Boutons */}
-          <View style={styles.modalButtons}>
-            <TouchableOpacity
-              style={styles.cancelButton}
-              onPress={() => setEditModalVisible(false)}
-            >
-              <Text style={styles.cancelButtonText}>Annuler</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.saveButton}
-              onPress={saveEditedData}
-            >
-              <Ionicons name="checkmark-circle" size={20} color="#ffffff" />
-              <Text style={styles.saveButtonText}>Enregistrer</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-    </Modal>
-
-    {/* Modal de détails du paramètre */}
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={parameterModalVisible}
-      onRequestClose={() => setParameterModalVisible(false)}
-    >
-      <View style={styles.modalOverlay}>
-        <View style={styles.parameterModalContent}>
-          {selectedParameter && (
-            <>
-              {/* En-tête du modal */}
-              <View style={[styles.parameterModalHeader, { backgroundColor: selectedParameter.color }]}>
-                <View style={styles.parameterHeaderContent}>
-                  <View style={styles.parameterIconLarge}>
-                    <Ionicons name={selectedParameter.icon} size={48} color="#fff" />
-                  </View>
-                  <Text style={styles.parameterModalTitle}>{selectedParameter.name}</Text>
-                  <View style={styles.parameterValueContainer}>
-                    <Text style={styles.parameterValueLarge}>
-                      {selectedParameter.value}
-                    </Text>
-                    <Text style={styles.parameterUnitLarge}>{selectedParameter.unit}</Text>
-                  </View>
-                </View>
-                <TouchableOpacity 
-                  onPress={() => setParameterModalVisible(false)}
-                  style={styles.closeButton}
-                >
-                  <Ionicons name="close-circle" size={32} color="#fff" />
-                </TouchableOpacity>
+        {/* État Global de l'Eau */}
+        <View style={styles.globalStatusContainer}>
+          <View style={[styles.globalStatusCard, { backgroundColor: globalStatus.bgColor }]}>
+            <View style={styles.globalStatusHeader}>
+              <Ionicons name={globalStatus.icon} size={48} color={globalStatus.color} />
+              <View style={styles.globalStatusTextContainer}>
+                <Text style={styles.globalStatusLabel}>État Global</Text>
+                <Text style={[styles.globalStatusValue, { color: globalStatus.color }]}>
+                  {globalStatus.status}
+                </Text>
               </View>
+            </View>
+            <Text style={styles.globalStatusMessage}>{globalStatus.message}</Text>
+          </View>
+        </View>
 
-              {/* Corps du modal avec recommandations */}
-              <ScrollView style={styles.parameterModalBody}>
-                {selectedParameter.recommendations.map((rec, index) => {
-                  const getTypeColor = (type) => {
-                    switch (type) {
-                      case 'danger': return '#ef4444';
-                      case 'warning': return '#f59e0b';
-                      case 'success': return '#10b981';
-                      default: return '#3b82f6';
-                    }
-                  };
+        <View style={styles.content}>
+          {/* Section Recommandations */}
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionSubtitle}>Actions suggérées pour optimiser votre pisciculture</Text>
+          </View>
 
-                  const getTypeIcon = (type) => {
-                    switch (type) {
-                      case 'danger': return 'alert-circle';
-                      case 'warning': return 'warning';
-                      case 'success': return 'checkmark-circle';
-                      default: return 'information-circle';
-                    }
-                  };
+          <View style={styles.recommendationsContainer}>
+            {recommendations.map((rec) => {
+              const priorityLabel = rec.priority === 'high' ? 'Urgent' : rec.priority === 'medium' ? 'Modéré' : 'Faible';
+              const IconComponent = rec.icon === 'nutrition' ? MaterialCommunityIcons : Ionicons;
 
-                  const typeColor = getTypeColor(rec.type);
-                  const typeIcon = getTypeIcon(rec.type);
-
-                  return (
-                    <View key={index} style={styles.recommendationDetailCard}>
-                      {/* En-tête de la recommandation */}
-                      <View style={[styles.recDetailHeader, { backgroundColor: typeColor + '15' }]}>
-                        <Ionicons name={typeIcon} size={32} color={typeColor} />
-                        <Text style={[styles.recDetailTitle, { color: typeColor }]}>
-                          {rec.title}
-                        </Text>
-                      </View>
-
-                      {/* Message */}
-                      <View style={styles.recDetailSection}>
-                        <Text style={styles.recDetailLabel}>📋 Diagnostic</Text>
-                        <Text style={styles.recDetailText}>{rec.message}</Text>
-                      </View>
-
-                      {/* Actions à prendre */}
-                      <View style={styles.recDetailSection}>
-                        <Text style={styles.recDetailLabel}>✅ Actions recommandées</Text>
-                        {rec.actions.map((action, actionIndex) => (
-                          <View key={actionIndex} style={styles.actionItem}>
-                            <View style={[styles.actionBullet, { backgroundColor: typeColor }]} />
-                            <Text style={styles.actionText}>{action}</Text>
-                          </View>
-                        ))}
-                      </View>
-
-                      {/* Impact */}
-                      <View style={[styles.impactSection, { backgroundColor: typeColor + '10' }]}>
-                        <Ionicons name="information-circle" size={20} color={typeColor} />
-                        <View style={styles.impactTextContainer}>
-                          <Text style={styles.impactLabel}>Impact :</Text>
-                          <Text style={styles.impactText}>{rec.impact}</Text>
+              return (
+                <TouchableOpacity
+                  key={rec.id}
+                  style={[styles.recommendationCard, { borderLeftColor: rec.color }]}
+                  onPress={() => {
+                    setSelectedRecommendation(rec);
+                    setModalVisible(true);
+                  }}
+                >
+                  <View style={styles.recommendationHeader}>
+                    <View style={[styles.iconContainer, { backgroundColor: rec.bgColor }]}>
+                      <IconComponent name={rec.icon} size={28} color={rec.color} />
+                    </View>
+                    <View style={styles.recommendationTitleContainer}>
+                      <View style={styles.categoryRow}>
+                        <Text style={styles.categoryText}>{rec.category}</Text>
+                        <View style={[styles.priorityBadge, { backgroundColor: rec.bgColor }]}>
+                          <Text style={[styles.priorityText, { color: rec.color }]}>{priorityLabel}</Text>
                         </View>
                       </View>
+                      <Text style={styles.recommendationTitle}>{rec.title}</Text>
                     </View>
-                  );
-                })}
-
-                {/* Bouton pour obtenir plus d'aide */}
-                <TouchableOpacity
-                  style={styles.assistantButton}
-                  onPress={() => {
-                    setParameterModalVisible(false);
-                    if (openAssistant && selectedParameter && selectedParameter.recommendations && selectedParameter.recommendations.length > 0) {
-                      // Créer un message contextuel détaillé pour l'IA
-                      const rec = selectedParameter.recommendations[0];
-                      const contextMessage = `J'ai besoin d'aide avec le paramètre ${selectedParameter.name}. Voici ma situation :\n\nValeur actuelle : ${selectedParameter.value} ${selectedParameter.unit}\nProblème : ${rec.title || 'Non spécifié'}\nMessage : ${rec.message || 'Aucun message'}\nImpact : ${rec.impact || 'Impact non défini'}\n\nPeux-tu m'expliquer simplement ce qui se passe, pourquoi c'est important pour mes poissons, et me guider étape par étape sur ce que je dois faire ? J'aimerais aussi savoir comment éviter ce problème à l'avenir.`;
-                      openAssistant(contextMessage);
-                    }
-                  }}
-                >
-                  <Ionicons name="chatbubbles" size={24} color="#fff" />
-                  <Text style={styles.assistantButtonText}>
-                    Obtenir plus d'aide avec Wami-IA
+                  </View>
+                  <Text style={styles.recommendationDescription}>
+                    {rec.description}
                   </Text>
+                  <View style={styles.actionRow}>
+                    <Ionicons name="flash" size={16} color="#3498DB" />
+                    <Text style={styles.actionText}>{rec.action}</Text>
+                  </View>
                 </TouchableOpacity>
-              </ScrollView>
-            </>
-          )}
-        </View>
-      </View>
-    </Modal>
-
-    {/* Modal de liste des paramètres */}
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={parametersListModalVisible}
-      onRequestClose={() => setParametersListModalVisible(false)}
-    >
-      <View style={styles.modalOverlay}>
-        <View style={styles.parametersListModalContent}>
-          {/* En-tête du modal */}
-          <View style={styles.parametersListHeader}>
-            <Text style={styles.parametersListTitle}>Paramètres Actuels</Text>
-            <TouchableOpacity onPress={() => setParametersListModalVisible(false)}>
-              <Ionicons name="close-circle" size={32} color="#64748b" />
-            </TouchableOpacity>
+              );
+            })}
           </View>
 
-          {/* Liste des paramètres */}
-          <ScrollView style={styles.parametersListBody}>
-            <View style={styles.cardsContainer}>
-              <WaterQualityCard
-                title="Température"
-                value={waterData.temperature}
-                unit="°C"
-                icon="thermometer"
-                color={getStatusColor('temperature', parseFloat(waterData.temperature))}
-                onPress={() => {
-                  setParametersListModalVisible(false);
-                  setTimeout(() => {
-                    openParameterModal('Température', waterData.temperature, '°C', 'thermometer', getStatusColor('temperature', parseFloat(waterData.temperature)));
-                  }, 300);
-                }}
-              />
-              <WaterQualityCard
-                title="pH"
-                value={waterData.ph}
-                unit=""
-                icon="flask"
-                color={getStatusColor('ph', parseFloat(waterData.ph))}
-                onPress={() => {
-                  setParametersListModalVisible(false);
-                  setTimeout(() => {
-                    openParameterModal('pH', waterData.ph, '', 'flask', getStatusColor('ph', parseFloat(waterData.ph)));
-                  }, 300);
-                }}
-              />
-              <WaterQualityCard
-                title="Oxygène"
-                value={waterData.oxygen}
-                unit="mg/L"
-                icon="water"
-                color={getStatusColor('oxygen', parseFloat(waterData.oxygen))}
-                onPress={() => {
-                  setParametersListModalVisible(false);
-                  setTimeout(() => {
-                    openParameterModal('Oxygène', waterData.oxygen, 'mg/L', 'water', getStatusColor('oxygen', parseFloat(waterData.oxygen)));
-                  }, 300);
-                }}
-              />
-              <WaterQualityCard
-                title="Ammoniaque"
-                value={waterData.ammonia}
-                unit="mg/L"
-                icon="warning"
-                color={getStatusColor('ammonia', parseFloat(waterData.ammonia))}
-                onPress={() => {
-                  setParametersListModalVisible(false);
-                  setTimeout(() => {
-                    openParameterModal('Ammoniaque', waterData.ammonia, 'mg/L', 'warning', getStatusColor('ammonia', parseFloat(waterData.ammonia)));
-                  }, 300);
-                }}
-              />
-              <WaterQualityCard
-                title="Turbidité"
-                value={waterData.turbidity}
-                unit="NTU"
-                icon="eye"
-                color={getStatusColor('turbidity', parseFloat(waterData.turbidity))}
-                onPress={() => {
-                  setParametersListModalVisible(false);
-                  setTimeout(() => {
-                    openParameterModal('Turbidité', waterData.turbidity, 'NTU', 'eye', getStatusColor('turbidity', parseFloat(waterData.turbidity)));
-                  }, 300);
-                }}
-              />
-              <WaterQualityCard
-                title="Salinité"
-                value={waterData.salinity}
-                unit="ppt"
-                icon="beaker"
-                color={getStatusColor('salinity', parseFloat(waterData.salinity))}
-                onPress={() => {
-                  setParametersListModalVisible(false);
-                  setTimeout(() => {
-                    openParameterModal('Salinité', waterData.salinity, 'ppt', 'beaker', getStatusColor('salinity', parseFloat(waterData.salinity)));
-                  }, 300);
-                }}
-              />
+          {/* Bouton Saisir manuellement */}
+          <TouchableOpacity style={styles.editButton} onPress={openEditModal}>
+            <Ionicons name="create-outline" size={20} color="#0B5394" />
+            <Text style={styles.editButtonText}>Saisir Paramètres</Text>
+          </TouchableOpacity>
+
+          {/* Section Paramètres Actuels */}
+          <Text style={styles.sectionTitle}>Paramètres Actuels</Text>
+
+          {/* Bouton pour ouvrir le popup des paramètres */}
+          <TouchableOpacity
+            style={styles.viewParametersButton}
+            onPress={() => setParametersListModalVisible(true)}
+          >
+            <View style={styles.viewParametersContent}>
+              <MaterialCommunityIcons name="water-check" size={32} color="#0B5394" />
+              <View style={styles.viewParametersTextContainer}>
+                <Text style={styles.viewParametersTitle}>Voir les Paramètres</Text>
+                <Text style={styles.viewParametersSubtitle}>
+                  Cliquez pour consulter les 6 paramètres d'eau
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={24} color="#0B5394" />
             </View>
-          </ScrollView>
+          </TouchableOpacity>
+
         </View>
-      </View>
-    </Modal>
-  </>
+      </ScrollView>
+
+      {/* Modal de détails de recommandation */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            {selectedRecommendation && (
+              <>
+                <View style={styles.modalHeader}>
+                  <Text style={styles.modalTitle}>{selectedRecommendation.title}</Text>
+                  <TouchableOpacity onPress={() => setModalVisible(false)}>
+                    <Ionicons name="close-circle" size={32} color="#64748b" />
+                  </TouchableOpacity>
+                </View>
+
+                <ScrollView style={styles.modalBody}>
+                  {/* Icône centrale */}
+                  <View style={styles.modalIconContainer}>
+                    <View style={[styles.modalIcon, { backgroundColor: selectedRecommendation.bgColor }]}>
+                      {selectedRecommendation.icon === 'nutrition' ? (
+                        <MaterialCommunityIcons name={selectedRecommendation.icon} size={48} color={selectedRecommendation.color} />
+                      ) : (
+                        <Ionicons name={selectedRecommendation.icon} size={48} color={selectedRecommendation.color} />
+                      )}
+                    </View>
+                  </View>
+
+                  {/* Valeurs */}
+                  <View style={styles.valuesContainer}>
+                    <View style={styles.valueRow}>
+                      <Text style={styles.valueLabel}>Valeur actuelle:</Text>
+                      <Text style={styles.valueText}>{selectedRecommendation.details.currentValue}</Text>
+                    </View>
+                    <View style={styles.valueRow}>
+                      <Text style={styles.valueLabel}>Valeur cible:</Text>
+                      <Text style={styles.valueText}>{selectedRecommendation.details.targetValue}</Text>
+                    </View>
+                    <View style={styles.valueRow}>
+                      <Text style={styles.valueLabel}>Temps estimé:</Text>
+                      <Text style={styles.valueText}>{selectedRecommendation.details.estimatedTime}</Text>
+                    </View>
+                  </View>
+
+                  {/* Étapes à suivre */}
+                  <View style={styles.stepsContainer}>
+                    <Text style={styles.stepsTitle}>Étapes à suivre:</Text>
+                    {selectedRecommendation.details.steps.map((step, index) => (
+                      <View key={index} style={styles.stepRow}>
+                        <View style={styles.stepNumber}>
+                          <Text style={styles.stepNumberText}>{index + 1}</Text>
+                        </View>
+                        <Text style={styles.stepText}>{step}</Text>
+                      </View>
+                    ))}
+                  </View>
+
+                  {/* Impact */}
+                  <View style={styles.impactContainer}>
+                    <Ionicons name="information-circle" size={20} color="#3498DB" />
+                    <Text style={styles.impactText}>{selectedRecommendation.details.impact}</Text>
+                  </View>
+                </ScrollView>
+
+                {/* Boutons */}
+                <View style={styles.modalButtons}>
+                  <TouchableOpacity
+                    style={styles.explainButton}
+                    onPress={() => {
+                      setModalVisible(false);
+                      if (openAssistant && selectedRecommendation && selectedRecommendation.details) {
+                        // Créer un message contextuel pour l'IA
+                        const contextMessage = `Je veux en savoir plus sur cette recommandation : ${selectedRecommendation.title || 'Recommandation'}. Valeur actuelle : ${selectedRecommendation.details.currentValue || 'Non définie'}, Valeur cible : ${selectedRecommendation.details.targetValue || 'Non définie'}. Impact : ${selectedRecommendation.details.impact || 'Impact non défini'}. Peux-tu m'expliquer en détail ce que je dois faire et pourquoi c'est important ?`;
+                        openAssistant(contextMessage);
+                      }
+                    }}
+                  >
+                    <Ionicons name="chatbubbles" size={20} color="#3498DB" />
+                    <Text style={styles.explainButtonText}>Plus d'explications avec Wami-IA</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.applyButton}
+                    onPress={() => {
+                      setModalVisible(false);
+                      // Logique pour appliquer la recommandation
+                    }}
+                  >
+                    <Text style={styles.applyButtonText}>Appliquer la recommandation</Text>
+                  </TouchableOpacity>
+                </View>
+              </>
+            )}
+          </View>
+        </View>
+      </Modal>
+
+      {/* Modal d'édition manuelle des paramètres */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={editModalVisible}
+        onRequestClose={() => setEditModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Saisir les Paramètres</Text>
+              <TouchableOpacity onPress={() => setEditModalVisible(false)}>
+                <Ionicons name="close-circle" size={32} color="#64748b" />
+              </TouchableOpacity>
+            </View>
+
+            <ScrollView style={styles.editScrollView}>
+              {/* Température */}
+              <View style={styles.inputGroup}>
+                <Text style={styles.inputLabel}>Température (°C)</Text>
+                <TextInput
+                  style={styles.input}
+                  keyboardType="numeric"
+                  value={editedData.temperature?.toString()}
+                  onChangeText={(text) => setEditedData({ ...editedData, temperature: text })}
+                  placeholder="26.5"
+                />
+                <Text style={styles.inputHint}>Plage optimale: 25-27°C</Text>
+              </View>
+
+              {/* pH */}
+              <View style={styles.inputGroup}>
+                <Text style={styles.inputLabel}>pH</Text>
+                <TextInput
+                  style={styles.input}
+                  keyboardType="numeric"
+                  value={editedData.ph?.toString()}
+                  onChangeText={(text) => setEditedData({ ...editedData, ph: text })}
+                  placeholder="7.2"
+                />
+                <Text style={styles.inputHint}>Plage optimale: 7.0-7.5</Text>
+              </View>
+
+              {/* Oxygène */}
+              <View style={styles.inputGroup}>
+                <Text style={styles.inputLabel}>Oxygène dissous (mg/L)</Text>
+                <TextInput
+                  style={styles.input}
+                  keyboardType="numeric"
+                  value={editedData.oxygen?.toString()}
+                  onChangeText={(text) => setEditedData({ ...editedData, oxygen: text })}
+                  placeholder="8.5"
+                />
+                <Text style={styles.inputHint}>Plage optimale: 7-9 mg/L</Text>
+              </View>
+
+              {/* Ammoniaque */}
+              <View style={styles.inputGroup}>
+                <Text style={styles.inputLabel}>Ammoniaque (mg/L)</Text>
+                <TextInput
+                  style={styles.input}
+                  keyboardType="numeric"
+                  value={editedData.ammonia?.toString()}
+                  onChangeText={(text) => setEditedData({ ...editedData, ammonia: text })}
+                  placeholder="0.15"
+                />
+                <Text style={styles.inputHint}>Plage optimale: 0-0.2 mg/L</Text>
+              </View>
+
+              {/* Turbidité */}
+              <View style={styles.inputGroup}>
+                <Text style={styles.inputLabel}>Turbidité (NTU)</Text>
+                <TextInput
+                  style={styles.input}
+                  keyboardType="numeric"
+                  value={editedData.turbidity?.toString()}
+                  onChangeText={(text) => setEditedData({ ...editedData, turbidity: text })}
+                  placeholder="12"
+                />
+                <Text style={styles.inputHint}>Plage optimale: 0-20 NTU</Text>
+              </View>
+
+              {/* Salinité */}
+              <View style={styles.inputGroup}>
+                <Text style={styles.inputLabel}>Salinité (ppt)</Text>
+                <TextInput
+                  style={styles.input}
+                  keyboardType="numeric"
+                  value={editedData.salinity?.toString()}
+                  onChangeText={(text) => setEditedData({ ...editedData, salinity: text })}
+                  placeholder="0.5"
+                />
+                <Text style={styles.inputHint}>Plage optimale: 0-1 ppt</Text>
+              </View>
+            </ScrollView>
+
+            {/* Boutons */}
+            <View style={styles.modalButtons}>
+              <TouchableOpacity
+                style={styles.cancelButton}
+                onPress={() => setEditModalVisible(false)}
+              >
+                <Text style={styles.cancelButtonText}>Annuler</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.saveButton}
+                onPress={saveEditedData}
+              >
+                <Ionicons name="checkmark-circle" size={20} color="#ffffff" />
+                <Text style={styles.saveButtonText}>Enregistrer</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Modal de détails du paramètre */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={parameterModalVisible}
+        onRequestClose={() => setParameterModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.parameterModalContent}>
+            {selectedParameter && (
+              <>
+                {/* En-tête du modal */}
+                <View style={[styles.parameterModalHeader, { backgroundColor: selectedParameter.color }]}>
+                  <View style={styles.parameterHeaderContent}>
+                    <View style={styles.parameterIconLarge}>
+                      <Ionicons name={selectedParameter.icon} size={48} color="#fff" />
+                    </View>
+                    <Text style={styles.parameterModalTitle}>{selectedParameter.name}</Text>
+                    <View style={styles.parameterValueContainer}>
+                      <Text style={styles.parameterValueLarge}>
+                        {selectedParameter.value}
+                      </Text>
+                      <Text style={styles.parameterUnitLarge}>{selectedParameter.unit}</Text>
+                    </View>
+                  </View>
+                  <TouchableOpacity
+                    onPress={() => setParameterModalVisible(false)}
+                    style={styles.closeButton}
+                  >
+                    <Ionicons name="close-circle" size={32} color="#fff" />
+                  </TouchableOpacity>
+                </View>
+
+                {/* Corps du modal avec recommandations */}
+                <ScrollView style={styles.parameterModalBody}>
+                  {selectedParameter.recommendations.map((rec, index) => {
+                    const getTypeColor = (type) => {
+                      switch (type) {
+                        case 'danger': return '#ef4444';
+                        case 'warning': return '#f59e0b';
+                        case 'success': return '#10b981';
+                        default: return '#3b82f6';
+                      }
+                    };
+
+                    const getTypeIcon = (type) => {
+                      switch (type) {
+                        case 'danger': return 'alert-circle';
+                        case 'warning': return 'warning';
+                        case 'success': return 'checkmark-circle';
+                        default: return 'information-circle';
+                      }
+                    };
+
+                    const typeColor = getTypeColor(rec.type);
+                    const typeIcon = getTypeIcon(rec.type);
+
+                    return (
+                      <View key={index} style={styles.recommendationDetailCard}>
+                        {/* En-tête de la recommandation */}
+                        <View style={[styles.recDetailHeader, { backgroundColor: typeColor + '15' }]}>
+                          <Ionicons name={typeIcon} size={32} color={typeColor} />
+                          <Text style={[styles.recDetailTitle, { color: typeColor }]}>
+                            {rec.title}
+                          </Text>
+                        </View>
+
+                        {/* Message */}
+                        <View style={styles.recDetailSection}>
+                          <Text style={styles.recDetailLabel}>📋 Diagnostic</Text>
+                          <Text style={styles.recDetailText}>{rec.message}</Text>
+                        </View>
+
+                        {/* Actions à prendre */}
+                        <View style={styles.recDetailSection}>
+                          <Text style={styles.recDetailLabel}>✅ Actions recommandées</Text>
+                          {rec.actions.map((action, actionIndex) => (
+                            <View key={actionIndex} style={styles.actionItem}>
+                              <View style={[styles.actionBullet, { backgroundColor: typeColor }]} />
+                              <Text style={styles.actionText}>{action}</Text>
+                            </View>
+                          ))}
+                        </View>
+
+                        {/* Impact */}
+                        <View style={[styles.impactSection, { backgroundColor: typeColor + '10' }]}>
+                          <Ionicons name="information-circle" size={20} color={typeColor} />
+                          <View style={styles.impactTextContainer}>
+                            <Text style={styles.impactLabel}>Impact :</Text>
+                            <Text style={styles.impactText}>{rec.impact}</Text>
+                          </View>
+                        </View>
+                      </View>
+                    );
+                  })}
+
+                  {/* Bouton pour obtenir plus d'aide */}
+                  <TouchableOpacity
+                    style={styles.assistantButton}
+                    onPress={() => {
+                      setParameterModalVisible(false);
+                      if (openAssistant && selectedParameter && selectedParameter.recommendations && selectedParameter.recommendations.length > 0) {
+                        // Créer un message contextuel détaillé pour l'IA
+                        const rec = selectedParameter.recommendations[0];
+                        const contextMessage = `J'ai besoin d'aide avec le paramètre ${selectedParameter.name}. Voici ma situation :\n\nValeur actuelle : ${selectedParameter.value} ${selectedParameter.unit}\nProblème : ${rec.title || 'Non spécifié'}\nMessage : ${rec.message || 'Aucun message'}\nImpact : ${rec.impact || 'Impact non défini'}\n\nPeux-tu m'expliquer simplement ce qui se passe, pourquoi c'est important pour mes poissons, et me guider étape par étape sur ce que je dois faire ? J'aimerais aussi savoir comment éviter ce problème à l'avenir.`;
+                        openAssistant(contextMessage);
+                      }
+                    }}
+                  >
+                    <Ionicons name="chatbubbles" size={24} color="#fff" />
+                    <Text style={styles.assistantButtonText}>
+                      Obtenir plus d'aide avec Wami-IA
+                    </Text>
+                  </TouchableOpacity>
+                </ScrollView>
+              </>
+            )}
+          </View>
+        </View>
+      </Modal>
+
+      {/* Modal de liste des paramètres */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={parametersListModalVisible}
+        onRequestClose={() => setParametersListModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.parametersListModalContent}>
+            {/* En-tête du modal */}
+            <View style={styles.parametersListHeader}>
+              <Text style={styles.parametersListTitle}>Paramètres Actuels</Text>
+              <TouchableOpacity onPress={() => setParametersListModalVisible(false)}>
+                <Ionicons name="close-circle" size={32} color="#64748b" />
+              </TouchableOpacity>
+            </View>
+
+            {/* Liste des paramètres */}
+            <ScrollView style={styles.parametersListBody}>
+              <View style={styles.cardsContainer}>
+                <WaterQualityCard
+                  title="Température"
+                  value={waterData.temperature}
+                  unit="°C"
+                  icon="thermometer"
+                  color={getStatusColor('temperature', parseFloat(waterData.temperature))}
+                  onPress={() => {
+                    setParametersListModalVisible(false);
+                    setTimeout(() => {
+                      openParameterModal('Température', waterData.temperature, '°C', 'thermometer', getStatusColor('temperature', parseFloat(waterData.temperature)));
+                    }, 300);
+                  }}
+                />
+                <WaterQualityCard
+                  title="pH"
+                  value={waterData.ph}
+                  unit=""
+                  icon="flask"
+                  color={getStatusColor('ph', parseFloat(waterData.ph))}
+                  onPress={() => {
+                    setParametersListModalVisible(false);
+                    setTimeout(() => {
+                      openParameterModal('pH', waterData.ph, '', 'flask', getStatusColor('ph', parseFloat(waterData.ph)));
+                    }, 300);
+                  }}
+                />
+                <WaterQualityCard
+                  title="Oxygène"
+                  value={waterData.oxygen}
+                  unit="mg/L"
+                  icon="water"
+                  color={getStatusColor('oxygen', parseFloat(waterData.oxygen))}
+                  onPress={() => {
+                    setParametersListModalVisible(false);
+                    setTimeout(() => {
+                      openParameterModal('Oxygène', waterData.oxygen, 'mg/L', 'water', getStatusColor('oxygen', parseFloat(waterData.oxygen)));
+                    }, 300);
+                  }}
+                />
+                <WaterQualityCard
+                  title="Ammoniaque"
+                  value={waterData.ammonia}
+                  unit="mg/L"
+                  icon="warning"
+                  color={getStatusColor('ammonia', parseFloat(waterData.ammonia))}
+                  onPress={() => {
+                    setParametersListModalVisible(false);
+                    setTimeout(() => {
+                      openParameterModal('Ammoniaque', waterData.ammonia, 'mg/L', 'warning', getStatusColor('ammonia', parseFloat(waterData.ammonia)));
+                    }, 300);
+                  }}
+                />
+                <WaterQualityCard
+                  title="Turbidité"
+                  value={waterData.turbidity}
+                  unit="NTU"
+                  icon="eye"
+                  color={getStatusColor('turbidity', parseFloat(waterData.turbidity))}
+                  onPress={() => {
+                    setParametersListModalVisible(false);
+                    setTimeout(() => {
+                      openParameterModal('Turbidité', waterData.turbidity, 'NTU', 'eye', getStatusColor('turbidity', parseFloat(waterData.turbidity)));
+                    }, 300);
+                  }}
+                />
+                <WaterQualityCard
+                  title="Salinité"
+                  value={waterData.salinity}
+                  unit="ppt"
+                  icon="beaker"
+                  color={getStatusColor('salinity', parseFloat(waterData.salinity))}
+                  onPress={() => {
+                    setParametersListModalVisible(false);
+                    setTimeout(() => {
+                      openParameterModal('Salinité', waterData.salinity, 'ppt', 'beaker', getStatusColor('salinity', parseFloat(waterData.salinity)));
+                    }, 300);
+                  }}
+                />
+              </View>
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
+    </>
   );
 }
 
