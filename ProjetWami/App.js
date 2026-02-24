@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
-import { View, ActivityIndicator, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, ActivityIndicator, StyleSheet, TouchableOpacity, Text, Platform } from 'react-native';
 import { COLORS } from './src/constants/theme';
 
 // Import screens
@@ -18,6 +18,8 @@ import AnnuaireScreen from './src/screens/AnnuaireScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import SplashScreen from './src/screens/SplashScreen';
 import WelcomeSelectionScreen from './src/screens/WelcomeSelectionScreen';
+import MarketplaceScreen from './src/screens/MarketplaceScreen';
+import MaBoutiqueScreen from './src/screens/MaBoutiqueScreen';
 import ScreenWithAssistant from './src/components/ScreenWithAssistant';
 
 // Import Auth Context
@@ -42,6 +44,7 @@ function ProfileStackScreen() {
     >
       <ProfileStack.Screen name="ProfileMain" component={ProfileScreen} />
       <ProfileStack.Screen name="Shop" component={ShopScreen} />
+      <ProfileStack.Screen name="MaBoutique" component={MaBoutiqueScreen} />
     </ProfileStack.Navigator>
   );
 }
@@ -126,8 +129,8 @@ function MainTabs() {
           </ScreenWithAssistant>
         )}
       </Tab.Screen>
-      <Tab.Screen 
-        name="Profil" 
+      <Tab.Screen
+        name="Profil"
         component={ProfileStackScreen}
         options={{
           headerRight: null,
@@ -147,24 +150,26 @@ function Navigation() {
 
   // Afficher le splash uniquement lors d'une nouvelle connexion (pas au démarrage si déjà connecté)
   React.useEffect(() => {
-    if (!loading && !hasShownSplashThisSession) {
-      // Cas 1: User vient de se connecter (passage de null à object)
-      if (prevUserRef.current === null && user !== null) {
-        setShowSplash(true);
-        setHasShownSplashThisSession(true);
-      }
-      // Cas 2: User déjà connecté au démarrage - NE PAS afficher le splash
-      else if (prevUserRef.current === null && user === null) {
-        // Juste initialiser la référence
-        prevUserRef.current = null;
-      }
-      
-      // Mettre à jour la référence
-      if (prevUserRef.current !== user) {
-        prevUserRef.current = user;
-      }
+    if (loading) return;
+
+    const prev = prevUserRef.current;
+
+    // Logout : user vient de se déconnecter → réinitialiser pour la prochaine connexion
+    if (prev !== null && user === null) {
+      prevUserRef.current = null;
+      setHasShownSplashThisSession(false);
+      setShowSplash(null);
+      return;
     }
-  }, [loading, user, hasShownSplashThisSession]);
+
+    // Login : user vient de se connecter (null → object)
+    if (prev === null && user !== null && !hasShownSplashThisSession) {
+      setShowSplash(true);
+      setHasShownSplashThisSession(true);
+    }
+
+    prevUserRef.current = user;
+  }, [loading, user]);
 
   if (loading) {
     return (
@@ -181,15 +186,19 @@ function Navigation() {
   }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer key={user ? 'authenticated' : 'guest'}>
       <StatusBar style="light" />
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator screenOptions={{
+        headerShown: false,
+        cardStyle: Platform.OS === 'web' ? { height: '100vh', overflow: 'hidden' } : {},
+      }}>
+
         {user ? (
           <>
             <Stack.Screen name="WelcomeSelection">
               {({ navigation }) => (
                 <ScreenWithAssistant hideFloatingButton={true}>
-                  <WelcomeSelectionScreen 
+                  <WelcomeSelectionScreen
                     navigation={navigation}
                     onOptionSelected={() => setHasSelectedOption(true)}
                   />
@@ -197,6 +206,7 @@ function Navigation() {
               )}
             </Stack.Screen>
             <Stack.Screen name="MainTabs" component={MainTabs} />
+            <Stack.Screen name="Marketplace" component={MarketplaceScreen} />
           </>
         ) : (
           <Stack.Screen name="Login">
@@ -211,19 +221,21 @@ function Navigation() {
 // Composant App principal avec AuthProvider, WaterDataProvider et AssistantProvider
 export default function App() {
   return (
-    <AuthProvider>
-      <WaterDataProvider>
-        <GamificationProvider>
-          <RobotProvider>
-            <AssistantProvider>
-              <SpeechProvider>
-                <Navigation />
-              </SpeechProvider>
-            </AssistantProvider>
-          </RobotProvider>
-        </GamificationProvider>
-      </WaterDataProvider>
-    </AuthProvider>
+    <View style={[{ flex: 1 }, Platform.OS === 'web' && { height: '100vh', overflow: 'hidden' }]}>
+      <AuthProvider>
+        <WaterDataProvider>
+          <GamificationProvider>
+            <RobotProvider>
+              <AssistantProvider>
+                <SpeechProvider>
+                  <Navigation />
+                </SpeechProvider>
+              </AssistantProvider>
+            </RobotProvider>
+          </GamificationProvider>
+        </WaterDataProvider>
+      </AuthProvider>
+    </View>
   );
 }
 

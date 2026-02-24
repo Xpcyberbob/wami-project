@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Dimensions,
+  ScrollView,
+  useWindowDimensions,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -21,7 +23,8 @@ const { width, height } = Dimensions.get('window');
 export default function WelcomeSelectionScreen({ navigation, openAssistant, onOptionSelected }) {
   const { waterData } = useWaterData();
   const { startSpeaking, stopSpeaking } = useSpeech();
-  
+  const { height: windowHeight } = useWindowDimensions();
+
   // État pour l'animation d'écriture du slogan
   const [displayedSlogan, setDisplayedSlogan] = useState('');
   const [cursorVisible, setCursorVisible] = useState(true);
@@ -63,15 +66,15 @@ export default function WelcomeSelectionScreen({ navigation, openAssistant, onOp
       }
     };
   }, []);
-  
+
   // Fonction pour générer le message vocal d'état global
   const generateWelcomeVoiceMessage = () => {
     const { temperature, ph, oxygen, ammonia, turbidity, salinity } = waterData;
-    
+
     // Analyser l'état global
     let globalStatus = 'optimal';
     let issues = [];
-    
+
     // Vérifier chaque paramètre
     if (temperature < 24 || temperature > 30) {
       issues.push('température');
@@ -93,7 +96,7 @@ export default function WelcomeSelectionScreen({ navigation, openAssistant, onOp
       issues.push('turbidité');
       globalStatus = 'attention';
     }
-    
+
     // Messages d'accueil variés pour plus de naturel
     const greetings = [
       "Salut chef ! Comment allez-vous aujourd'hui ?",
@@ -101,15 +104,15 @@ export default function WelcomeSelectionScreen({ navigation, openAssistant, onOp
       "Hey ! Prêt à prendre soin de vos poissons ?",
       "Coucou ! J'espère que vous passez une belle journée !"
     ];
-    
+
     const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
-    
+
     // Construire le message vocal avec plus d'humanité
     let message = `${randomGreeting} Alors, voyons ensemble l'état de votre eau... `;
-    
+
     // Ajouter une petite pause naturelle
     message += "Hmm... ";
-    
+
     if (globalStatus === 'optimal') {
       const positiveResponses = [
         "Wahou ! C'est fantastique ! Vos paramètres sont absolument parfaits !",
@@ -135,19 +138,19 @@ export default function WelcomeSelectionScreen({ navigation, openAssistant, onOp
       message += "Le niveau d'oxygène est vraiment trop bas pour vos poissons. ";
       message += "Mais pas de panique ! Je vais vous guider pour résoudre ça rapidement ! ";
     }
-    
+
     const closingMessages = [
       "N'hésitez surtout pas à me solliciter si vous avez besoin d'aide, je suis là pour ça !",
       "Je reste à votre disposition pour tout conseil, comptez sur moi !",
       "Si vous avez la moindre question, je suis votre assistante dévouée !",
       "Prenez soin de vous et de vos petits compagnons aquatiques !"
     ];
-    
+
     message += closingMessages[Math.floor(Math.random() * closingMessages.length)];
-    
+
     return message;
   };
-  
+
   // Message contextuel pour l'assistant IA sur la création de pisciculture
   const piscicultureGuideMessage = `MODE APPRENTISSAGE - Je suis débutant en pisciculture et je veux tout apprendre !
 
@@ -174,22 +177,32 @@ Merci de m'expliquer tout cela simplement, comme si je n'y connaissais rien !`;
   };
 
   const handleGoToDashboard = () => {
-    // Marquer que l'utilisateur a fait son choix
     if (onOptionSelected) {
       onOptionSelected();
     }
-    
-    // Naviguer vers les onglets principaux
     navigation.navigate('MainTabs');
   };
 
+  const handleGoToMarketplace = () => {
+    navigation.navigate('Marketplace');
+  };
+
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={{ flex: 1 }}>
+      {/* Gradient en fond absolu */}
       <LinearGradient
         colors={['#0891b2', '#06b6d4', '#67e8f9']}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
-        style={styles.gradient}
+        style={StyleSheet.absoluteFill}
+      />
+      {/* ScrollView racine — même pattern que DashboardScreen */}
+      <ScrollView
+        style={[styles.scrollRoot, Platform.OS === 'web' && { height: '100vh' }]}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+        onLayout={e => console.log('[Welcome] ScrollView layout:', JSON.stringify(e.nativeEvent.layout))}
+        onContentSizeChange={(w, h) => console.log('[Welcome] content size:', w, h)}
       >
         {/* Header avec logo et titre */}
         <View style={styles.header}>
@@ -208,65 +221,86 @@ Merci de m'expliquer tout cela simplement, comme si je n'y connaissais rien !`;
           <Text style={styles.subtitle}>Votre assistant intelligent pour la pisciculture</Text>
         </View>
 
-        {/* Contenu principal avec les deux boutons */}
-        <View style={styles.content}>
-          <Text style={styles.questionText}>Que souhaitez-vous faire ?</Text>
-          
-          {/* Bouton 1: Guide pisciculture */}
-          <TouchableOpacity
-            style={styles.optionButton}
-            onPress={handlePiscicultureGuide}
-            activeOpacity={0.8}
-          >
-            <LinearGradient
-              colors={['#ffffff', '#f8fafc']}
-              style={styles.buttonGradient}
-            >
-              <View style={styles.buttonIcon}>
-                <MaterialCommunityIcons name="school" size={40} color="#0891b2" />
-              </View>
-              <View style={styles.buttonContent}>
-                <Text style={styles.buttonTitle}>Apprendre la pisciculture</Text>
-                <Text style={styles.buttonDescription}>
-                  Découvrez comment créer et gérer votre pisciculture avec l'aide de notre IA
-                </Text>
-              </View>
-              <Ionicons name="chevron-forward" size={24} color="#0891b2" />
-            </LinearGradient>
-          </TouchableOpacity>
+        {/* Contenu scrollable */}
+        <Text style={styles.questionText}>Que souhaitez-vous faire ?</Text>
 
-          {/* Bouton 2: Tableau de bord */}
-          <TouchableOpacity
-            style={styles.optionButton}
-            onPress={handleGoToDashboard}
-            activeOpacity={0.8}
+        {/* Bouton 1: Guide pisciculture */}
+        <TouchableOpacity
+          style={styles.optionButton}
+          onPress={handlePiscicultureGuide}
+          activeOpacity={0.8}
+        >
+          <LinearGradient
+            colors={['#ffffff', '#f8fafc']}
+            style={styles.buttonGradient}
           >
-            <LinearGradient
-              colors={['#ffffff', '#f8fafc']}
-              style={styles.buttonGradient}
-            >
-              <View style={styles.buttonIcon}>
-                <Ionicons name="analytics" size={40} color="#0891b2" />
-              </View>
-              <View style={styles.buttonContent}>
-                <Text style={styles.buttonTitle}>Accéder au tableau de bord</Text>
-                <Text style={styles.buttonDescription}>
-                  Surveillez vos paramètres d'eau et gérez votre pisciculture
-                </Text>
-              </View>
-              <Ionicons name="chevron-forward" size={24} color="#0891b2" />
-            </LinearGradient>
-          </TouchableOpacity>
-        </View>
+            <View style={styles.buttonIcon}>
+              <MaterialCommunityIcons name="school" size={40} color="#0891b2" />
+            </View>
+            <View style={styles.buttonContent}>
+              <Text style={styles.buttonTitle}>Apprendre la pisciculture</Text>
+              <Text style={styles.buttonDescription}>
+                Découvrez comment créer et gérer votre pisciculture avec l'aide de notre IA
+              </Text>
+            </View>
+            <Ionicons name="chevron-forward" size={24} color="#0891b2" />
+          </LinearGradient>
+        </TouchableOpacity>
 
-        {/* Footer avec informations */}
+        {/* Bouton 2: Tableau de bord */}
+        <TouchableOpacity
+          style={styles.optionButton}
+          onPress={handleGoToDashboard}
+          activeOpacity={0.8}
+        >
+          <LinearGradient
+            colors={['#ffffff', '#f8fafc']}
+            style={styles.buttonGradient}
+          >
+            <View style={styles.buttonIcon}>
+              <Ionicons name="analytics" size={40} color="#0891b2" />
+            </View>
+            <View style={styles.buttonContent}>
+              <Text style={styles.buttonTitle}>Accéder au tableau de bord</Text>
+              <Text style={styles.buttonDescription}>
+                Surveillez vos paramètres d'eau et gérez votre pisciculture
+              </Text>
+            </View>
+            <Ionicons name="chevron-forward" size={24} color="#0891b2" />
+          </LinearGradient>
+        </TouchableOpacity>
+
+        {/* Bouton 3: Marketplace */}
+        <TouchableOpacity
+          style={styles.optionButton}
+          onPress={handleGoToMarketplace}
+          activeOpacity={0.8}
+        >
+          <LinearGradient
+            colors={['#ffffff', '#f8fafc']}
+            style={styles.buttonGradient}
+          >
+            <View style={styles.buttonIcon}>
+              <Ionicons name="cart" size={40} color="#0891b2" />
+            </View>
+            <View style={styles.buttonContent}>
+              <Text style={styles.buttonTitle}>Accéder à la Marketplace</Text>
+              <Text style={styles.buttonDescription}>
+                Achetez poissons, alevins, équipements et aliments
+              </Text>
+            </View>
+            <Ionicons name="chevron-forward" size={24} color="#0891b2" />
+          </LinearGradient>
+        </TouchableOpacity>
+
+        {/* Footer */}
         <View style={styles.footer}>
           <Text style={styles.footerText}>
             💡 Vous pourrez toujours accéder à ces fonctionnalités depuis l'application
           </Text>
         </View>
-      </LinearGradient>
-    </SafeAreaView>
+      </ScrollView>
+    </View>
   );
 }
 
@@ -276,6 +310,12 @@ const styles = StyleSheet.create({
   },
   gradient: {
     flex: 1,
+  },
+  scrollRoot: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingBottom: 40,
   },
   header: {
     alignItems: 'center',
@@ -326,9 +366,9 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   content: {
-    flex: 1,
     paddingHorizontal: 20,
-    justifyContent: 'center',
+    paddingTop: 20,
+    paddingBottom: 10,
   },
   questionText: {
     fontSize: 24,

@@ -72,7 +72,17 @@ export default function ProfileScreen({ navigation }) {
       'Êtes-vous sûr de vouloir vous déconnecter ?',
       [
         { text: 'Annuler', style: 'cancel' },
-        { text: 'Déconnexion', onPress: logout, style: 'destructive' },
+        {
+          text: 'Déconnexion',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await logout();
+            } catch (error) {
+              console.error('Erreur lors de la déconnexion:', error);
+            }
+          },
+        },
       ]
     );
   };
@@ -93,6 +103,27 @@ export default function ProfileScreen({ navigation }) {
         </TouchableOpacity>
         <Text style={styles.userName}>{user?.name}</Text>
         <Text style={styles.userEmail}>{user?.email}</Text>
+        {/* Badge de rôle */}
+        <View style={[
+          styles.roleBadge,
+          user?.role === 'admin' && { backgroundColor: '#7C3AED20', borderColor: '#7C3AED' },
+          user?.role === 'user' && { backgroundColor: '#0077B620', borderColor: '#0077B6' },
+          user?.role === 'client' && { backgroundColor: '#10B98120', borderColor: '#10B981' },
+        ]}>
+          <Text style={[
+            styles.roleBadgeText,
+            user?.role === 'admin' && { color: '#7C3AED' },
+            user?.role === 'user' && { color: '#0077B6' },
+            user?.role === 'client' && { color: '#10B981' },
+          ]}>
+            {user?.role === 'admin' && '👑 Administrateur'}
+            {user?.role === 'user' && user?.sellerType === 'pisciculteur' && '🐟 Pisciculteur'}
+            {user?.role === 'user' && user?.sellerType === 'fournisseur' && '📦 Fournisseur'}
+            {user?.role === 'user' && !user?.sellerType && '🐟 Vendeur'}
+            {user?.role === 'client' && '🛒 Acheteur'}
+            {!user?.role && '👤 Utilisateur'}
+          </Text>
+        </View>
       </View>
 
       {/* Section Gamification */}
@@ -238,26 +269,31 @@ export default function ProfileScreen({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      {/* Ma Boutique */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Commerce</Text>
-
-        <TouchableOpacity 
-          style={styles.shopItem}
-          onPress={() => navigation.navigate('Shop')}
-        >
-          <View style={styles.shopLeft}>
-            <View style={styles.shopIconContainer}>
-              <Ionicons name="storefront" size={24} color={COLORS.primary} />
+      {/* Ma Boutique — visible uniquement pour les vendeurs (role = 'user') */}
+      {(user?.role === 'user' || user?.role === 'admin') && (
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Commerce</Text>
+          <TouchableOpacity
+            style={styles.shopItem}
+            onPress={() => navigation.navigate('MaBoutique')}
+          >
+            <View style={styles.shopLeft}>
+              <View style={styles.shopIconContainer}>
+                <Ionicons name="storefront" size={24} color={COLORS.primary} />
+              </View>
+              <View>
+                <Text style={styles.shopText}>Ma Boutique</Text>
+                <Text style={styles.shopSubtext}>
+                  {user?.sellerType === 'fournisseur'
+                    ? 'Gérer vos aliments et équipements'
+                    : 'Gérer vos poissons et alevins'}
+                </Text>
+              </View>
             </View>
-            <View>
-              <Text style={styles.shopText}>Ma Boutique</Text>
-              <Text style={styles.shopSubtext}>Vendre vos poissons</Text>
-            </View>
-          </View>
-          <Ionicons name="chevron-forward" size={24} color="#999" />
-        </TouchableOpacity>
-      </View>
+            <Ionicons name="chevron-forward" size={24} color="#999" />
+          </TouchableOpacity>
+        </View>
+      )}
 
       {/* Bouton de déconnexion */}
       <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
@@ -266,7 +302,7 @@ export default function ProfileScreen({ navigation }) {
       </TouchableOpacity>
 
       <View style={styles.footer}>
-        <Text style={styles.footerText}>Version 1.0.0</Text>
+        <Text style={styles.footerText}>Version 1.0.1</Text>
       </View>
     </ScrollView>
   );
@@ -318,6 +354,21 @@ const styles = StyleSheet.create({
   userEmail: {
     fontSize: 16,
     color: 'rgba(255, 255, 255, 0.8)',
+    marginBottom: 10,
+  },
+  roleBadge: {
+    paddingHorizontal: 14,
+    paddingVertical: 5,
+    borderRadius: 20,
+    borderWidth: 1.5,
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    borderColor: 'rgba(255,255,255,0.4)',
+    marginTop: 4,
+  },
+  roleBadgeText: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#fff',
   },
   section: {
     backgroundColor: '#fff',
