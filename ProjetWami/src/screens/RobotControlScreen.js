@@ -34,17 +34,17 @@ export default function RobotControlScreen({ openAssistant }) {
   const [autoMode, setAutoMode] = useState(false);
   const [cameraActive, setCameraActive] = useState(true);
   const [lightsOn, setLightsOn] = useState(false);
-  
+
   // État réel du servo (depuis le backend)
   const [servoActive, setServoActive] = useState(false);
   const [servoLoading, setServoLoading] = useState(false);
   const [backendOnline, setBackendOnline] = useState(false);
   const [lastUpdate, setLastUpdate] = useState(null);
   const pollRef = useRef(null);
-  
+
   // Position du robot (simulation de mouvement)
   const [robotPosition, setRobotPosition] = useState({ x: 50, y: 50 });
-  
+
   // Zones de qualité d'eau
   const waterZones = [
     { x: 10, y: 10, width: 30, height: 30, color: '#10b981', quality: 'Excellente' },
@@ -124,8 +124,8 @@ export default function RobotControlScreen({ openAssistant }) {
     setRobotPosition(prev => {
       let newPos = { ...prev };
       const step = 5;
-      
-      switch(direction) {
+
+      switch (direction) {
         case 'haut':
           newPos.y = Math.max(5, prev.y - step);
           break;
@@ -139,7 +139,7 @@ export default function RobotControlScreen({ openAssistant }) {
           newPos.x = Math.min(95, prev.x + step);
           break;
       }
-      
+
       return newPos;
     });
     // Ici, vous enverriez la commande au robot via API/WebSocket
@@ -277,10 +277,10 @@ export default function RobotControlScreen({ openAssistant }) {
         {/* Section Carte + Contrôles */}
         <View style={styles.mapControlSection}>
           <Text style={styles.sectionTitle}>Position du Robot</Text>
-          
+
           {/* Cartographie Topographique */}
           <TopographicWaterMap robotPosition={robotPosition} zones={waterZones} />
-          
+
           {/* Contrôles directionnels - Juste en bas de la carte */}
           <Text style={styles.controlsTitle}>Diriger le robot</Text>
           <View style={styles.controlsContainer}>
@@ -325,7 +325,7 @@ export default function RobotControlScreen({ openAssistant }) {
             </View>
           </View>
         </View>
-        
+
         {/* Status Card */}
         <View style={styles.statusCard}>
           <View style={styles.statusHeader}>

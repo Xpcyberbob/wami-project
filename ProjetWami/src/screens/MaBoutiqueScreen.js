@@ -125,7 +125,10 @@ export default function MaBoutiqueScreen({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             {/* Header */}
-            <LinearGradient colors={COLORS.gradients.header} style={styles.header}>
+            <LinearGradient
+                colors={COLORS.gradients.header}
+                style={styles.header}
+            >
                 <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
                     <Ionicons name="arrow-back" size={24} color="#fff" />
                 </TouchableOpacity>

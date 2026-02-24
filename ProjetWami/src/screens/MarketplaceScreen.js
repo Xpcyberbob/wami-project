@@ -3,6 +3,7 @@ import {
     View, Text, StyleSheet, ScrollView, TouchableOpacity,
     TextInput, Alert, Modal, SafeAreaView, Platform, useWindowDimensions,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -49,6 +50,7 @@ const CATEGORIES = [
 // ─── Composant principal ──────────────────────────────────────────────────────
 
 export default function MarketplaceScreen({ navigation }) {
+    const insets = useSafeAreaInsets();
     const { height: windowHeight } = useWindowDimensions();
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
@@ -159,7 +161,10 @@ export default function MarketplaceScreen({ navigation }) {
                 stickyHeaderIndices={[0, 1]}
             >
                 {/* ── Header (sticky index 0) ── */}
-                <LinearGradient colors={COLORS.gradients.header} style={styles.header}>
+                <LinearGradient
+                    colors={COLORS.gradients.header}
+                    style={[styles.header, { paddingTop: insets.top + (Platform.OS === 'android' ? 10 : 0) }]}
+                >
                     <View style={styles.headerTop}>
                         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.iconBtn}>
                             <Ionicons name="arrow-back" size={24} color="#fff" />
@@ -405,7 +410,7 @@ const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: '#F0F4F8' },
 
     // Header
-    header: { paddingTop: 10, paddingBottom: 16, paddingHorizontal: 16 },
+    header: { paddingBottom: 16, paddingHorizontal: 16 },
     headerTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 },
     headerTitle: { fontSize: 22, fontWeight: '800', color: '#fff', textAlign: 'center' },
     headerSub: { fontSize: 12, color: 'rgba(255,255,255,0.8)', textAlign: 'center' },

@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import { View, ActivityIndicator, StyleSheet, TouchableOpacity, Text, Platform } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { COLORS } from './src/constants/theme';
 
 // Import screens
@@ -43,9 +44,9 @@ function ProfileStackScreen() {
       }}
     >
       <ProfileStack.Screen name="ProfileMain">
-        {() => (
+        {({ navigation }) => (
           <ScreenWithAssistant>
-            <ProfileScreen />
+            <ProfileScreen navigation={navigation} />
           </ScreenWithAssistant>
         )}
       </ProfileStack.Screen>
@@ -101,37 +102,37 @@ function MainTabs() {
       })}
     >
       <Tab.Screen name="Tableau de bord">
-        {() => (
+        {({ navigation }) => (
           <ScreenWithAssistant>
-            <DashboardScreen />
+            <DashboardScreen navigation={navigation} />
           </ScreenWithAssistant>
         )}
       </Tab.Screen>
       <Tab.Screen name="Prédiction">
-        {() => (
+        {({ navigation }) => (
           <ScreenWithAssistant>
-            <PredictionScreen />
+            <PredictionScreen navigation={navigation} />
           </ScreenWithAssistant>
         )}
       </Tab.Screen>
       <Tab.Screen name="Recommandations">
-        {() => (
+        {({ navigation }) => (
           <ScreenWithAssistant>
-            <RecommendationsScreen />
+            <RecommendationsScreen navigation={navigation} />
           </ScreenWithAssistant>
         )}
       </Tab.Screen>
       <Tab.Screen name="Robot">
-        {() => (
+        {({ navigation }) => (
           <ScreenWithAssistant>
-            <RobotControlScreen />
+            <RobotControlScreen navigation={navigation} />
           </ScreenWithAssistant>
         )}
       </Tab.Screen>
       <Tab.Screen name="Annuaire">
-        {() => (
+        {({ navigation }) => (
           <ScreenWithAssistant>
-            <AnnuaireScreen />
+            <AnnuaireScreen navigation={navigation} />
           </ScreenWithAssistant>
         )}
       </Tab.Screen>
@@ -227,21 +228,23 @@ function Navigation() {
 // Composant App principal avec AuthProvider, WaterDataProvider et AssistantProvider
 export default function App() {
   return (
-    <View style={[{ flex: 1 }, Platform.OS === 'web' && { height: '100vh', overflow: 'hidden' }]}>
-      <AuthProvider>
-        <WaterDataProvider>
-          <GamificationProvider>
-            <RobotProvider>
-              <AssistantProvider>
-                <SpeechProvider>
-                  <Navigation />
-                </SpeechProvider>
-              </AssistantProvider>
-            </RobotProvider>
-          </GamificationProvider>
-        </WaterDataProvider>
-      </AuthProvider>
-    </View>
+    <SafeAreaProvider>
+      <View style={[{ flex: 1 }, Platform.OS === 'web' && { height: '100vh', overflow: 'hidden' }]}>
+        <AuthProvider>
+          <WaterDataProvider>
+            <GamificationProvider>
+              <RobotProvider>
+                <AssistantProvider>
+                  <SpeechProvider>
+                    <Navigation />
+                  </SpeechProvider>
+                </AssistantProvider>
+              </RobotProvider>
+            </GamificationProvider>
+          </WaterDataProvider>
+        </AuthProvider>
+      </View>
+    </SafeAreaProvider>
   );
 }
 

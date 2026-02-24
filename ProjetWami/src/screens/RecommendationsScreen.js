@@ -85,7 +85,7 @@ export default function RecommendationsScreen({ openAssistant }) {
             onPress={() => openRecommendationDetails(recommendation)}
           >
             <View style={[styles.priorityIndicator, { backgroundColor: getPriorityColor(recommendation.priority) }]} />
-            
+
             <View style={[styles.iconContainer, { backgroundColor: recommendation.color + '20' }]}>
               <Ionicons name={recommendation.icon} size={28} color={recommendation.color} />
             </View>
@@ -99,10 +99,10 @@ export default function RecommendationsScreen({ openAssistant }) {
                   </Text>
                 </View>
               </View>
-              
+
               <Text style={styles.recommendationTitle}>{recommendation.title}</Text>
               <Text style={styles.recommendationDescription}>{recommendation.description}</Text>
-              
+
               <View style={styles.actionContainer}>
                 <Ionicons name="arrow-forward-circle" size={16} color="#0891b2" />
                 <Text style={styles.actionText}>{recommendation.action}</Text>
